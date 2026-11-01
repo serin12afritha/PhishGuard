@@ -38,12 +38,19 @@ try:
         "to test the prediction."
     )
 
-    row_number = st.slider(
-        "Select website sample",
-        min_value=0,
-        max_value=len(df) - 1,
-        value=0
-    )
+   test_type = st.selectbox(
+    "Choose website type",
+    ["Legitimate", "Phishing"]
+)
+
+sample_indices = df.index[
+    df["status"] == test_type.lower()
+].tolist()
+
+row_number = st.selectbox(
+    "Select website sample",
+    sample_indices
+)
 
     website = df.iloc[row_number]
 
