@@ -33,49 +33,43 @@ try:
 
     st.header("Website Prediction")
 
-    st.write(
-        "Choose a sample website from the dataset "
-        "to test the prediction."
+    st.write("Choose a sample website from the dataset to test the prediction.")
+
+    test_type = st.selectbox(
+        "Choose website type",
+        ["Legitimate", "Phishing"]
     )
 
-   test_type = st.selectbox(
-    "Choose website type",
-    ["Legitimate", "Phishing"]
-)
+    sample_indices = df.index[
+        df["status"] == test_type.lower()
+    ].tolist()
 
-sample_indices = df.index[
-    df["status"] == test_type.lower()
-].tolist()
-
-row_number = st.selectbox(
-    "Select website sample",
-    sample_indices
-)
+    row_number = st.selectbox(
+        "Select website sample",
+        sample_indices
+    )
 
     website = df.iloc[row_number]
 
-    st.write("**Website URL:**")
+    st.write("Website URL:")
     st.code(str(website["url"]))
 
     if st.button("Check Website", type="primary"):
 
         X = df.drop(columns=["url", "status"])
-
         input_data = X.iloc[[row_number]]
 
         if hasattr(model, "feature_names_in_"):
-            input_data = input_data[
-                list(model.feature_names_in_)
-            ]
+            input_data = input_data[list(model.feature_names_in_)]
 
         prediction = model.predict(input_data)[0]
 
         st.subheader("Prediction Result")
 
         if prediction == 1:
-            st.error("⚠️ Phishing Website Detected!")
+            st.error("Phishing Website Detected!")
         else:
-            st.success("✅ Legitimate Website")
+            st.success("Legitimate Website")
 
         if hasattr(model, "predict_proba"):
             probabilities = model.predict_proba(input_data)[0]
