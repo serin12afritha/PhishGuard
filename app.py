@@ -17,7 +17,54 @@ st.write(
     "Enter a website URL to predict whether "
     "it is potentially phishing or legitimate."
 )
+st.markdown("---")
 
+st.header("About PhishGuard")
+
+st.write("""
+PhishGuard is a Machine Learning-based project
+designed to identify potentially phishing URLs.
+
+It analyzes URL characteristics and classifies
+websites as Legitimate or Phishing using a
+Random Forest classification model.
+""")
+
+st.header("How It Works")
+
+st.markdown("""
+1. **URL Input:** User enters a website URL.
+
+2. **Feature Extraction:** The system extracts
+   12 URL-based features.
+
+3. **Machine Learning:** The extracted features
+   are given to the trained Random Forest model.
+
+4. **Prediction:** The model classifies the URL
+   as Legitimate or Phishing.
+
+5. **Result:** The prediction is displayed to the user.
+""")
+
+st.header("Model Information")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.metric("Algorithm", "Random Forest")
+
+with col2:
+    st.metric("Test Accuracy", "84.86%")
+
+st.info("""
+Note: PhishGuard analyzes URL characteristics only.
+It does not inspect website content or verify live
+website reputation. Predictions are not a guarantee
+of website safety.
+""")
+
+st.markdown("---")
 # Load URL-based model
 @st.cache_resource
 def load_model():
